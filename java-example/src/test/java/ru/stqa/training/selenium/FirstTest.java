@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
@@ -16,13 +18,28 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 public class FirstTest {
 
     private WebDriver driver;
+    private WebDriver driver1;
+    private WebDriver driver2;
+
     private WebDriverWait wait;
+    private WebDriverWait wait1;
+    private WebDriverWait wait2;
 
 
     @Before
     public void start(){
+        //Chrome
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver,10);
+
+        //IEplorer
+        driver1 = new InternetExplorerDriver();
+        wait1 = new WebDriverWait(driver1,10);
+
+        //FireFox
+        driver2 = new FirefoxDriver();
+        wait2 = new WebDriverWait(driver2,10);
+
     }
 
 
@@ -32,6 +49,16 @@ public class FirstTest {
         driver.findElement(By.name("q")).sendKeys("webdriver");
         driver.findElement(By.name("btnG")).click();
         wait.until(titleIs("webdriver - Поиск в Google"));
+
+        driver1.navigate().to("https://www.google.ru/");
+        driver1.findElement(By.name("q")).sendKeys("webdriver");
+        driver1.findElement(By.name("btnG")).click();
+        wait1.until(titleIs("webdriver - Поиск в Google"));
+
+        driver2.navigate().to("https://www.google.ru/");
+        driver2.findElement(By.name("q")).sendKeys("webdriver");
+        driver2.findElement(By.name("btnG")).click();
+        wait2.until(titleIs("webdriver - Поиск в Google"));
     }
 
 
@@ -39,5 +66,11 @@ public class FirstTest {
     public void stop(){
         driver.quit();
         driver = null;
+
+        driver1.quit();
+        driver1 = null;
+
+        driver2.quit();
+        driver2 = null;
     }
 }

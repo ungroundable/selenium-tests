@@ -7,3 +7,14 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
+selenium-test.iml
+.idea/compiler.xml
+*.xml
+.idea/modules/java-example.iml
+*.iml
+java-example/.gradle/2.13/taskArtifacts/cache.properties
+*.bin
+*.class
+*.class
+*.class
+java-example/build/classes/test/ru/stqa/training/selenium/FirstTest.class
