@@ -4,11 +4,17 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxBinary;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.io.File;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 
@@ -37,7 +43,11 @@ public class FirstTest {
         wait1 = new WebDriverWait(driver1,10);
 
         //FireFox
-        driver2 = new FirefoxDriver();
+        DesiredCapabilities caps = new DesiredCapabilities();
+//        caps.setCapability(FirefoxDriver.MARIONETTE, false);
+        driver2 = new FirefoxDriver(new FirefoxBinary(new File("C://Program Files//Nightly//firefox.exe"))
+                ,new FirefoxProfile(),caps);
+        System.out.println(((HasCapabilities)driver2).getCapabilities());
         wait2 = new WebDriverWait(driver2,10);
 
     }
