@@ -21,7 +21,7 @@ public class Test8 extends TestBase{
         List<WebElement> products = driver.findElements(By.cssSelector(".content .box .product"));
 
         for(WebElement element:products){
-            assertTrue(isOneElementPresent(element, By.cssSelector(".sticker new")));
+            assertTrue(isOneElementPresent(element, By.cssSelector(".sticker")));
         }
 
     }
