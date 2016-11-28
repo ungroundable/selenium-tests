@@ -25,14 +25,6 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElemen
 public class LiteCartClickingTest extends TestBase{
 
 
-    boolean areElementsPresent(WebDriver driver, By locator) {
-        return driver.findElements(locator).size() > 0;
-    }
-
-    boolean areSubElementsPresent(WebElement element, By locator) {
-        return element.findElements(locator).size() > 0;
-    }
-
 //    @Before
 //    public void start(){
 //        driver = new ChromeDriver();
