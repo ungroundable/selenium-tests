@@ -18,3 +18,4 @@ java-example/.gradle/2.13/taskArtifacts/cache.properties
 *.class
 *.class
 java-example/build/classes/test/ru/stqa/training/selenium/FirstTest.class
+

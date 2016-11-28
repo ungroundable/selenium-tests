@@ -12,6 +12,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
+
 public class TestBase {
 
     public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<>();
@@ -29,7 +31,7 @@ public class TestBase {
 //        caps.setCapability(FirefoxDriver.MARIONETTE, false);
         driver = new ChromeDriver(caps);
         tlDriver.set(driver);
-        System.out.println(((HasCapabilities) driver).getCapabilities());
+//        System.out.println(((HasCapabilities) driver).getCapabilities());
         wait = new WebDriverWait(driver, 10);
 
         Runtime.getRuntime().addShutdownHook(
