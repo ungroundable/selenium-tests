@@ -34,8 +34,7 @@ public class LiteCartClickingTest extends TestBase{
 
     @Test
     public void FirstTest() {
-        driver.navigate().to("http://localhost/litecart/admin/");
-//        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.navigate().to("http://localhost/litecart/admin/?app=countries&doc=countries");
         driver.findElement(By.name("username")).sendKeys("admin");
         driver.findElement(By.name("password")).sendKeys("admin");
         driver.findElement(By.name("login")).click();
