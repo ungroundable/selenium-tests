@@ -37,7 +37,7 @@ public class Test9C extends TestBase {
 
         //main loop for geoZones
         for(int currentGeoZone=2; currentGeoZone <= geoZonesRows.size()+1; currentGeoZone++){
-            String locator = "tr.row a:nth-child(" + currentGeoZone + ")";
+            String locator = ".dataTable tr.row:nth-child(" + currentGeoZone + ")";
             driver.findElement(By.cssSelector(locator)).click();
 
 
