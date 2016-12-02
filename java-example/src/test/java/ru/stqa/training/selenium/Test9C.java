@@ -40,8 +40,11 @@ public class Test9C extends TestBase {
             String locator = ".dataTable tr.row:nth-child(" + currentGeoZone + ")";
             driver.findElement(By.cssSelector(locator)).click();
 
+            //main loop for geo zone list
+            String geoLocator = "select[name*=zone_code] option[selected=selected]";
+            List<WebElement> geoZonesNames = driver.findElements(By.cssSelector(geoLocator));
 
-
+            driver.navigate().to("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
         }
 
         driver.navigate().to("http://localhost/litecart/admin/");
