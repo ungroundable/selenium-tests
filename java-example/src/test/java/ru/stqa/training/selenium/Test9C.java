@@ -37,12 +37,27 @@ public class Test9C extends TestBase {
 
         //main loop for geoZones
         for(int currentGeoZone=2; currentGeoZone <= geoZonesRows.size()+1; currentGeoZone++){
-            String locator = ".dataTable tr.row:nth-child(" + currentGeoZone + ")";
-            driver.findElement(By.cssSelector(locator)).click();
+            String locatorCountry = ".dataTable tr.row:nth-child(" + currentGeoZone + ")";
+            WebElement row = driver.findElement(By.cssSelector(locatorCountry));
+            row.findElement(By.cssSelector("a")).click();
 
             //main loop for geo zone list
-            String geoLocator = "select[name*=zone_code] option[selected=selected]";
+            String geoLocator = "#table-zones [name*=zone_code]";
             List<WebElement> geoZonesNames = driver.findElements(By.cssSelector(geoLocator));
+            ArrayList<String> regionNames = new ArrayList();
+
+            for (WebElement geoZonenRow : geoZonesNames) {
+                //add values Property to the temp array
+                String regionName = geoZonenRow.findElement(By.cssSelector("[selected]")).getAttribute("textContent");
+                regionNames.add(regionName);
+            }
+
+            //creating arrays to check sorting
+            String[] regionsBeforeSort = regionNames.toArray(new String[regionNames.size()]);
+            String[] regionsAfterSort = regionNames.toArray(new String[regionNames.size()]);
+            Arrays.sort(regionsAfterSort);
+
+            assertArrayEquals(regionsBeforeSort, regionsAfterSort);
 
             driver.navigate().to("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
         }
