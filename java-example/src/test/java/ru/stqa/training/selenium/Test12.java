@@ -57,11 +57,14 @@ public class Test12 extends TestBase {
         Select SoldSelect = new Select(SoldoutElement);
         SoldSelect.selectByVisibleText(SoldStatus);
 
+        //image
+        driver.findElement(By.cssSelector("[type=file]")).sendKeys((new File("./src/test/java/resources/1.jpg").getAbsolutePath()));
+
         //go to information tab
         WebElement InformationTabElement = driver.findElement(By.cssSelector(".index>li:nth-child(2) a"));
         InformationTabElement.click();
 
-        driver.findElement(By.cssSelector("[type=file]")).sendKeys((new File("1.jpg").getAbsolutePath()));
+
 
         //wait until new tab will be loaded
         wait.until(presenceOfElementLocated(By.cssSelector("[name='manufacturer_id']")));
@@ -83,7 +86,9 @@ public class Test12 extends TestBase {
         WebElement newProductDescriptionElement = driver.findElement(By.cssSelector("[name='description[en]']"));
         newProductDescriptionElement.sendKeys(newProductDescription);
 
-
+        //Save duck
+        WebElement saveButtonElement = driver.findElement(By.cssSelector("[name='save']"));
+        saveButtonElement.click();
 
     }
 
