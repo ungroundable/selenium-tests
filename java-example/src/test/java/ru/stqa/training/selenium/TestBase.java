@@ -12,16 +12,30 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.NoSuchElementException;
 
+import java.util.Set;
+
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 public class TestBase {
 
     public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<>();
     public WebDriver driver;
     public WebDriverWait wait;
+
+    public ExpectedCondition<String> thereIsWindowOtherThen(Set<String> oldWindows){
+        return new ExpectedCondition<String>(){
+            public String apply(WebDriver driver){
+                Set<String> handels = driver.getWindowHandles();
+                handels.removeAll(oldWindows);
+                return handels.size()>0? handels.iterator().next() : null;
+            }
+        };
+    }
 
     public boolean isElementPresent(By locator){
 
