@@ -1,36 +1,37 @@
 package ru.stqa.training.selenium;
 
-/**
- * Created by Андрей on 28.11.2016.
- */
+import net.lightbody.bmp.BrowserMobProxy;
+import net.lightbody.bmp.BrowserMobProxyServer;
+import net.lightbody.bmp.client.ClientUtil;
+import net.lightbody.bmp.core.har.Har;
+import net.lightbody.bmp.proxy.CaptureType;
+
 import org.junit.After;
 import org.junit.Before;
-import org.openqa.selenium.By;
-import org.openqa.selenium.HasCapabilities;
+import org.junit.Test;
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.logging.LoggingPreferences;
-import org.openqa.selenium.logging.LogType;
-import java.util.logging.Level;
-
 
 import java.util.Set;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
-import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
-public class TestBase {
+/**
+ * Created by Андрей on 06.02.2017.
+ */
+public class Test18 {
+
 
     public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<>();
     public WebDriver driver;
     public WebDriverWait wait;
+    public BrowserMobProxy proxy;
 
     public ExpectedCondition<String> thereIsWindowOtherThen(Set<String> oldWindows){
         return new ExpectedCondition<String>(){
@@ -42,29 +43,6 @@ public class TestBase {
         };
     }
 
-    public boolean isElementPresent(By locator){
-
-        try {
-
-            wait.until((WebDriver d)-> d.findElement(locator));
-            return true;
-
-        } catch (NoSuchElementException ex){
-
-            return false;
-
-        }
-
-    }
-
-    boolean areElementsPresent(WebDriver driver, By locator) {
-        return driver.findElements(locator).size() > 0;
-    }
-
-    boolean isOneElementPresent(WebElement element, By locator) {
-        return element.findElements(locator).size()==1;
-    }
-
     @Before
     public void start() {
         if (tlDriver.get() != null) {
@@ -72,21 +50,24 @@ public class TestBase {
             wait = new WebDriverWait(driver, 10);
             return;
         }
-        DesiredCapabilities caps = new DesiredCapabilities();
 
 
-        DesiredCapabilities capLog = DesiredCapabilities.chrome();
-        LoggingPreferences logPrefs = new LoggingPreferences();
-        logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
-        capLog.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
+        // start the proxy
+        proxy = new BrowserMobProxyServer();
+        proxy.start(0);
 
-//        caps.setCapability(FirefoxDriver.MARIONETTE, false);
+        // get the Selenium proxy object
+        Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
 
-//        for Chrome logging
-//        driver = new ChromeDriver(capLog);
+        // configure it as a desired capability
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
 
 
-        driver = new ChromeDriver(caps);
+
+
+
+        driver = new ChromeDriver(capabilities);
         tlDriver.set(driver);
 //        System.out.println(((HasCapabilities) driver).getCapabilities());
         wait = new WebDriverWait(driver, 10);
@@ -100,4 +81,16 @@ public class TestBase {
         //driver.quit();
         //driver = null;
     }
+
+
+    @Test
+    public void ProxyTest(){
+        proxy.newHar();
+        driver.get("http://www.google.com");
+        Har har = proxy.endHar();
+        har.getLog().getEntries().forEach(l -> System.out.println(l.getResponse().getStatus() + " : " + l.getRequest().getUrl()));
+
+
+    }
+
 }
