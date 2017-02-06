@@ -11,10 +11,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.logging.LoggingPreferences;
+import org.openqa.selenium.logging.LogType;
+import java.util.logging.Level;
+
 
 import java.util.Set;
 
@@ -68,7 +73,17 @@ public class TestBase {
             return;
         }
         DesiredCapabilities caps = new DesiredCapabilities();
+        DesiredCapabilities cap = DesiredCapabilities.chrome();
+        LoggingPreferences logPrefs = new LoggingPreferences();
+        logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
+        cap.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
+
 //        caps.setCapability(FirefoxDriver.MARIONETTE, false);
+
+//        for Chrome logging
+//        driver = new ChromeDriver(cap);
+
+
         driver = new ChromeDriver(caps);
         tlDriver.set(driver);
 //        System.out.println(((HasCapabilities) driver).getCapabilities());
